@@ -24,9 +24,6 @@
       "required": true,
       "targetField": "Name"
     },
-    "stripe_id": {
-      "type": "uid"
-    },
     "Price": {
       "type": "decimal",
       "required": true
@@ -36,8 +33,13 @@
       "required": true,
       "maxLength": 350
     },
+    "stripe_id": {
+      "type": "string",
+      "unique": true
+    },
     "price_id": {
-      "type": "uid"
+      "type": "string",
+      "unique": true
     }
   }
 }

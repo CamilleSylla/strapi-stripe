@@ -16,6 +16,7 @@ module.exports = {
         currency: "eur",
       })
       strapi.log.info(`Price created id:${price.id} and added to product id:${product.id}`);
+      event.params.data = { ...data, stripe_id: product.id, price_id: price.id };
     } catch(error) {
       strapi.log.error(error);
     }
