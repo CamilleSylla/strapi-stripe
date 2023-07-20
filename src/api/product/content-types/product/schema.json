@@ -40,6 +40,13 @@
     "price_id": {
       "type": "string",
       "unique": true
+    },
+    "Gallery": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }
