@@ -8,7 +8,6 @@ module.exports = {
             publicFiles: false,
             uniform: false,
             serviceAccount: gcp_key, // replace `{}` with your serviceAccount JSON object
-            baseUrl: 'https://storage.googleapis.com/media-sto',
             basePath: '',
         },
       },
