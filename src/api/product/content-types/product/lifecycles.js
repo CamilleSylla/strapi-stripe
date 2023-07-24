@@ -50,6 +50,7 @@ module.exports = {
       await stripe.products.update(stripe_id, {
         description: Exerpt,
         name: Name,
+        default_price : newStripePrice.id
       });
       strapi.log.info(`Updated stripe product id:${stripe_id}`);
       event.params.data = {
@@ -61,4 +62,15 @@ module.exports = {
       strapi.log.error(error);
     }
   },
+async afterDelete(event) {
+  const { stripe_id} = event.result;
+  try {
+    await stripe.products.update(stripe_id, {
+      active: false,
+    });
+    strapi.log.info(`Deleted stripe product id:${stripe_id}`);
+  } catch (error) {
+    strapi.log.error(error);
+  }
+}
 };
