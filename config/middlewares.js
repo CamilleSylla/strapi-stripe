@@ -24,8 +24,16 @@ module.exports = ({env}) => [
       },
     },
   },
-  'strapi::errors',
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: ['http://localhost:3333', 'http://localhost:1337'],
+      methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+      headers: '*',
+      keepHeaderOnError: true,
+
+    },
+  },
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
