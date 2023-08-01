@@ -8,7 +8,7 @@ module.exports = {
       const product = await stripe.products.create({
         name: data.Name,
         description: data.Exerpt,
-        images: data.Gallery.map((item) => item.url),
+        images: data?.Gallery?.map((item) => item.url) || [],
       });
       strapi.log.info(`Product created ${product.name}(id:${product.id})`);
       const price = await stripe.prices.create({
@@ -27,12 +27,15 @@ module.exports = {
       };
     } catch (error) {
       strapi.log.error(error);
+      throw error;
     }
   },
 
   async beforeUpdate(event) {
     const { data } = event.params;
-    const { Exerpt, Name, Price: price, price_id, stripe_id } = data;
+    //defines if is a publish action and skip if exist in case is null is an unpublish action
+    if (data.publishedAt || data.publishedAt === null) return;
+    const { Exerpt, Name, Price: price, price_id, stripe_id, Gallery } = data;
     const convertedPrice = Math.trunc(Number(price) * 100);
     try {
       await stripe.prices.update(price_id, {
@@ -50,7 +53,7 @@ module.exports = {
       await stripe.products.update(stripe_id, {
         description: Exerpt,
         name: Name,
-        default_price : newStripePrice.id
+        images: Gallery?.map((item) => item.url) || [],
       });
       strapi.log.info(`Updated stripe product id:${stripe_id}`);
       event.params.data = {
@@ -60,17 +63,19 @@ module.exports = {
       };
     } catch (error) {
       strapi.log.error(error);
+      throw error
     }
   },
-async afterDelete(event) {
-  const { stripe_id} = event.result;
-  try {
-    await stripe.products.update(stripe_id, {
-      active: false,
-    });
-    strapi.log.info(`Deleted stripe product id:${stripe_id}`);
-  } catch (error) {
-    strapi.log.error(error);
-  }
-}
+  async afterDelete(event) {
+    const { stripe_id } = event.result;
+    try {
+      await stripe.products.update(stripe_id, {
+        active: false,
+      });
+      strapi.log.info(`Deleted stripe product id:${stripe_id}`);
+    } catch (error) {
+      strapi.log.error(error);
+      throw error;
+    }
+  },
 };
