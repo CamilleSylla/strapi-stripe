@@ -1,5 +1,7 @@
 'use strict';
 
+const productBySlug = require("./api/product/gql-extension/product-by-slug");
+
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -7,7 +9,11 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  register({ strapi }) {
+    const extensionService = strapi.plugin('graphql').service('extension');
+
+    extensionService.use(productBySlug)
+  },
 
   /**
    * An asynchronous bootstrap function that runs before
