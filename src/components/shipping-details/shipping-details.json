@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_shipping_details_shipping_details",
+  "info": {
+    "displayName": "Shipping Details",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "Street": {
+      "type": "string",
+      "required": true
+    },
+    "City": {
+      "type": "string",
+      "required": true
+    },
+    "Country": {
+      "type": "string",
+      "required": true
+    },
+    "Zip": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

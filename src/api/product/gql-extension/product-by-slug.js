@@ -23,7 +23,6 @@ module.exports = ({ nexus }) => {
                         }
                     };
                     const sulgFilter = { Slug: { eq: slug } };
-                    // use slug and RBAC filter if exists
                     const { results } = await strapi.service('api::product.product').find({
                         ...params,
                         filters: strapi.plugins.graphql.services.utils.mappers.graphQLFiltersToStrapiQuery(
